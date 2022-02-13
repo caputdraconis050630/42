@@ -6,19 +6,16 @@
 /*   By: guntkim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 15:03:14 by guntkim           #+#    #+#             */
-/*   Updated: 2022/02/12 20:14:32 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/02/13 10:25:55 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h> // Delete it
-int total_chk(int Map[][6]);
-int row_up_chk(int Map[6][6]);
-int row_down_chk(int Map[6][6]);
-int col_left_chk(int Map[6][6]);
-int col_right_chk(int Map[6][6]);
 
-void init_arr(int Map[][6], int col_ud[0][5], int row_lr[][5], int now[3])
+int	total_chk(int Map[6][6]);
+
+void init_arr(int Map[6][6], int col_chk[4][5], int row_chk[4][5], int now[3])
 {
 	int i;
 	int j;
@@ -29,8 +26,8 @@ void init_arr(int Map[][6], int col_ud[0][5], int row_lr[][5], int now[3])
 	{
 		while (j < 5)
 		{
-			col_ud[i][j] = 0;
-			row_lr[i][j] = 0;
+			col_chk[i][j] = 0;
+			row_chk[i][j] = 0;
 			j += 1;
 		}
 		i += 1;
@@ -43,7 +40,8 @@ void init_arr(int Map[][6], int col_ud[0][5], int row_lr[][5], int now[3])
 			Map[i][j++] = 0;
 		i += 1;
 	}
-	now[0] = now[1] = now[2] = 0;
+	now[0] = now[1] = 1;
+	now[2] = 0;
 }
 
 void print_map(int Map[][6])
@@ -88,8 +86,6 @@ void find_case(int now[3], int Map[6][6], int col_chk[5][5], int row_chk[5][5])
 	{
 		now[0] += 1;
 		now[1] = 1;
-		find_case(now, Map, col_chk, row_chk);
-		return;
 	}
 	while (i <= 4)
 	{
@@ -156,11 +152,11 @@ void set_map_init(char **argv, int Map[6][6])
 
 int main(int argc, char **argv)
 {
+	(void)argc;
 	int Map[6][6];
 	int col_chk[4][5];
 	int row_chk[4][5];
 	int now[3];
-
 	init_arr(Map, col_chk, row_chk, now);
 	if (!chk_error_argv(argv))
 	{
@@ -170,7 +166,6 @@ int main(int argc, char **argv)
 	}
 	else
 		set_map_init(argv, Map);
-	// printf("호잇호잇~")
 	find_case(now, Map, col_chk, row_chk);
 	if (now[2] != 1)
 		write(1, "Error\n", 6);
