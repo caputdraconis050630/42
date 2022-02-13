@@ -6,7 +6,7 @@
 /*   By: guntkim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 15:03:14 by guntkim           #+#    #+#             */
-/*   Updated: 2022/02/13 10:25:55 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/02/13 14:11:37 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,18 @@
 
 int	total_chk(int Map[6][6]);
 
-void init_arr(int Map[6][6], int col_chk[4][5], int row_chk[4][5], int now[3])
+void init_arr(int Map[6][6], int dup_chk_arr[9][5])
 {
 	int i;
 	int j;
 
 	i = 0;
-	j = 1;
-	while (i < 4)
+	while (i < 9)
 	{
+		j = 1;
 		while (j < 5)
 		{
-			col_chk[i][j] = 0;
-			row_chk[i][j] = 0;
+			dup_chk_arr[i][j] = 0;
 			j += 1;
 		}
 		i += 1;
@@ -40,8 +39,6 @@ void init_arr(int Map[6][6], int col_chk[4][5], int row_chk[4][5], int now[3])
 			Map[i][j++] = 0;
 		i += 1;
 	}
-	now[0] = now[1] = 1;
-	now[2] = 0;
 }
 
 void print_map(int Map[][6])
@@ -66,36 +63,39 @@ void print_map(int Map[][6])
 	}
 }
 
-void find_case(int now[3], int Map[6][6], int col_chk[5][5], int row_chk[5][5])
+void find_case(int x, int y, int Map[6][6], int dup_chk_arr[9][5])
 {
 	int i;
 
 	i = 1;
-	if (now[2]) // Already Find a case, And Print it
+	if (Map[0][0]) // Already Find a case, And Print it
 		return;
-	if (now[0] == 4 && now[1] == 5)
+	if (x == 4 && y == 5)
 	{
+
 		if (total_chk(Map))
 		{
 			print_map(Map);
-			now[2] = 1;
+			Map[0][0] = 1; // Set Flag
 		}
 		return;
 	}
-	if (now[1] == 5)
+	if (y == 5)
 	{
-		now[0] += 1;
-		now[1] = 1;
+		x += 1;
+		y = 0;
 	}
 	while (i <= 4)
 	{
-		if (col_chk[now[0]][i] || row_chk[now[1]][i])
+		if (duplicate_chk(dup_chk_arr, 0, x, i) || duplicate_chk(dup_chk_arr, 1, y, i))
+		{
+			i += 1;
 			continue;
-		Map[now[0]][now[1]] = i;
-		col_chk[now[0]][i] = row_chk[now[1]][i] = 1;
-		now[1] += 1;
-		find_case(now, Map, col_chk, row_chk);
-		col_chk[now[0]][i] = row_chk[now[1]][i] = 0;
+		}
+		Map[x][y] = i;
+		dup_chk_assign(dup_chk_arr, x, y, i);
+		find_case(x, y + 1, Map, dup_chk_arr);
+		dup_chk_unassign(dup_chk_arr, x, y, i);
 		i += 1;
 	}
 	return;
@@ -154,10 +154,9 @@ int main(int argc, char **argv)
 {
 	(void)argc;
 	int Map[6][6];
-	int col_chk[4][5];
-	int row_chk[4][5];
+	int dup_chk_arr[9][5];
 	int now[3];
-	init_arr(Map, col_chk, row_chk, now);
+	init_arr(Map, dup_chk_arr, now);
 	if (!chk_error_argv(argv))
 	{
 		write(1, "Invalid Input\n", 14);
@@ -166,7 +165,7 @@ int main(int argc, char **argv)
 	}
 	else
 		set_map_init(argv, Map);
-	find_case(now, Map, col_chk, row_chk);
+	find_case(1, 1, Map, dup_chk_arr);
 	if (now[2] != 1)
 		write(1, "Error\n", 6);
 	return (0);
