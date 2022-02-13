@@ -6,43 +6,18 @@
 /*   By: guntkim <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 18:20:26 by guntkim           #+#    #+#             */
-/*   Updated: 2022/02/13 14:11:40 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/02/13 15:04:56 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	dup_chk(int dup_chk_arr[9][5], int row_col, int line_num, int value)
+int	row_up_chk(int Map[6][6])
 {
-	if (row_col == 0)
-	{
-		return (dup_chk_arr[line_num][value]);
-	}
-	else
-	{
-		return (dup_chk_arr[line_num + 4][value]);
-	}
-}
-
-int	dup_chk_assign(int dup_chk_arr[9][5], int x, int y, int value)
-{
-	dup_chk_arr[x][value] = 1;
-	dup_chk_arr[y + 4][value] = 1;
-}
-
-int	dup_chk_unassign(int dup_chk_arr[9][5], int x, int y, int value)
-{
-	dup_chk_arr[x][value] = 0;
-	dup_chk_arr[y + 4][value] = 0;
-}
-
-int row_up_chk(int Map[6][6])
-{
-	int i;
-	int j;
-	int cnt;
-	double max;
+	int		i;
+	int		j;
+	int		cnt;
+	double	max;
 
 	i = 1;
-
 	while (i <= 4)
 	{
 		cnt = 1;
@@ -64,12 +39,12 @@ int row_up_chk(int Map[6][6])
 	return (1);
 }
 
-int row_down_chk(int Map[6][6])
+int	row_down_chk(int Map[6][6])
 {
-	int i;
-	int j;
-	int cnt;
-	double max;
+	int		i;
+	int		j;
+	int		cnt;
+	double	max;
 
 	i = 1;
 	while (i <= 4)
@@ -93,12 +68,12 @@ int row_down_chk(int Map[6][6])
 	return (1);
 }
 
-int col_left_chk(int Map[6][6])
+int	col_left_chk(int Map[6][6])
 {
-	int i;
-	int j;
-	int cnt;
-	double max;
+	int		i;
+	int		j;
+	int		cnt;
+	double	max;
 
 	i = 1;
 	while (i <= 4)
@@ -122,12 +97,12 @@ int col_left_chk(int Map[6][6])
 	return (1);
 }
 
-int col_right_chk(int Map[6][6])
+int	col_right_chk(int Map[6][6])
 {
-	int i;
-	int j;
-	int cnt;
-	double max;
+	int		i;
+	int		j;
+	int		cnt;
+	double	max;
 
 	i = 1;
 	while (i <= 4)
@@ -151,7 +126,7 @@ int col_right_chk(int Map[6][6])
 	return (1);
 }
 
-int total_chk(int Map[6][6])
+int	total_chk(int Map[6][6])
 {
 	if (!row_up_chk(Map))
 		return (0);
