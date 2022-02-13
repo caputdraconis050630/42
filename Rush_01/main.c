@@ -11,24 +11,17 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdio.h> // Delete it
+int total_chk(int Map[][6]);
+int row_up_chk(int Map[6][6]);
+int row_down_chk(int Map[6][6]);
+int col_left_chk(int Map[6][6]);
+int col_right_chk(int Map[6][6]);
 
-int	chk_ganeung(int **Map)
+void init_arr(int Map[][6], int col_ud[0][5], int row_lr[][5], int now[3])
 {
-	if (!row_up_chk(Map))
-		return (0);
-	if (!row_down_chk(Map))
-		return (0);
-	if (!col_left_chk(Map))
-		return (0);
-	if (!col_right_chk(Map))
-		return (0);
-	return (1);
-}
-
-void	init_arr(int **Map, int **col_ud, int **row_lr)
-{
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	j = 1;
@@ -44,26 +37,28 @@ void	init_arr(int **Map, int **col_ud, int **row_lr)
 	}
 	i = j = 0;
 	while (i < 6)
-	{	
+	{
 		j = 0;
 		while (j < 6)
-			map[i][j++] = 0;
+			Map[i][j++] = 0;
 		i += 1;
 	}
+	now[0] = now[1] = now[2] = 0;
 }
 
-void	print_map(int **map)
+void print_map(int Map[][6])
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 1;
 	j = 1;
 	while (i < 5)
 	{
+		j = 1;
 		while (j < 5)
 		{
-			write(1, &map[i][j], 1);
+			write(1, &Map[i][j], 1);
 			if (j != 4)
 				write(1, " ", 1);
 			j += 1;
@@ -73,51 +68,56 @@ void	print_map(int **map)
 	}
 }
 
-void	find_case(int now[2], int **Map, int **col_ud, int **row_lr)
+void find_case(int now[3], int Map[6][6], int col_chk[5][5], int row_chk[5][5])
 {
-	int	i;
+	int i;
 
 	i = 1;
-	if (now[0] == 4 && now[1] == 5 && chk_ganeung(Map))
+	if (now[2]) // Already Find a case, And Print it
+		return;
+	if (now[0] == 4 && now[1] == 5)
 	{
-		print_map(Map);
-		return ;
+		if (total_chk(Map))
+		{
+			print_map(Map);
+			now[2] = 1;
+		}
+		return;
 	}
-	if (now[1] == 4)
+	if (now[1] == 5)
 	{
 		now[0] += 1;
-		now[1] = 0;
-		find_case(now, Map, col_ud, row_lr);
-		return ;
+		now[1] = 1;
+		find_case(now, Map, col_chk, row_chk);
+		return;
 	}
 	while (i <= 4)
 	{
-		if (col_ud[now[0]][i] || row_lr[now[1]][i])
+		if (col_chk[now[0]][i] || row_chk[now[1]][i])
 			continue;
 		Map[now[0]][now[1]] = i;
-		col_ud[now[0]][i] = row_lr[now[1]][i] = 1;
+		col_chk[now[0]][i] = row_chk[now[1]][i] = 1;
 		now[1] += 1;
-		find_case(now[0], now[1], Map, col_ud, row_lr);
-		col_ud[now[0]][i] = row_lr[now[1]][i] = 0;
+		find_case(now, Map, col_chk, row_chk);
+		col_chk[now[0]][i] = row_chk[now[1]][i] = 0;
 		i += 1;
 	}
+	return;
 }
 
-int	process_input(char **argv)
+// Check Invalid Argv Input
+int chk_error_argv(char **argv)
 {
 	// Check Invalid Input
-	int	i;
-	int	num_cnt;
-	
+	int i;
+
 	i = 0;
-	num_cnt = 0;
-	while (argv[1][i])
+	while (argv[1][i] != '\0')
 	{
 		if (i % 2 == 0)
 		{
-			if (! (argv[1][i] >= '1' && argv[1][i] <= '4'))
+			if (!(argv[1][i] >= '1' && argv[1][i] <= '4'))
 				return (0);
-			num_cnt += 1;
 		}
 		else
 		{
@@ -126,30 +126,53 @@ int	process_input(char **argv)
 		}
 		i += 1;
 	}
+
+	return (1); // Valid argv
 }
 
-int	main(int argc, char **argv)
+void set_map_init(char **argv, int Map[6][6])
 {
-	int	Map[6][6];
-	int	col_chk[4][5];
-	int	row_chk[4][5];
-	int	i;
-	int	j;
-	int position[2];
-	int	flag;
+	Map[0][1] = argv[1][0];
+	Map[0][2] = argv[1][2];
+	Map[0][3] = argv[1][4];
+	Map[0][4] = argv[1][6];
 
-	i = 0;
-	flag = 0;
-	position[0] = position[1] = 0;
-	init_arr(Map, col_ud, row_lr);
-	if (process_input(argv, col_chk, ))
+	Map[5][1] = argv[1][8];
+	Map[5][2] = argv[1][10];
+	Map[5][3] = argv[1][12];
+	Map[5][4] = argv[1][14];
+
+	Map[1][0] = argv[1][16];
+	Map[2][0] = argv[1][18];
+	Map[3][0] = argv[1][20];
+	Map[4][0] = argv[1][22];
+
+	Map[1][5] = argv[1][24];
+	Map[2][5] = argv[1][26];
+	Map[3][5] = argv[1][28];
+	Map[4][5] = argv[1][30];
+	return;
+}
+
+int main(int argc, char **argv)
+{
+	int Map[6][6];
+	int col_chk[4][5];
+	int row_chk[4][5];
+	int now[3];
+
+	init_arr(Map, col_chk, row_chk, now);
+	if (!chk_error_argv(argv))
 	{
-		write(1, "Invalid Input\n", 6);
-		write(1, "Example : ./rush-01 '4 3 2 1 1 2 2 2 4 3 2 1 1 2 2 2'", Byte Scale);
+		write(1, "Invalid Input\n", 14);
+		write(1, "Example : ./rush-01 '4 3 2 1 1 2 2 2 4 3 2 1 1 2 2 2'\n", 54);
 		return (0);
 	}
-	find_case(position, Map, col_ud, row_lr, &flag);
-	if (flag == 0)
+	else
+		set_map_init(argv, Map);
+	// printf("호잇호잇~")
+	find_case(now, Map, col_chk, row_chk);
+	if (now[2] != 1)
 		write(1, "Error\n", 6);
 	return (0);
 }

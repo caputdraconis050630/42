@@ -10,22 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int row_up_chk(int **Map)
+int row_up_chk(int Map[6][6])
 {
-	int		i;
-	int		j;
-	int		cnt;
-	double	max;
+	int i;
+	int j;
+	int cnt;
+	double max;
 
 	i = 1;
+
 	while (i <= 4)
 	{
 		cnt = 1;
-		max = Map[1][i];
 		j = 2;
+		max = Map[1][i];
 		while (j <= 4)
 		{
-			if (max < (double)Map[j][i] / j)
+			if (max <= (double)Map[j][i] / j)
 			{
 				max = (double)Map[j][i] / j;
 				cnt += 1;
@@ -39,12 +40,12 @@ int row_up_chk(int **Map)
 	return (1);
 }
 
-int	row_down_chk(int **Map)
+int row_down_chk(int Map[6][6])
 {
-	int		i;
-	int		j;
-	int		cnt;
-	double	max;
+	int i;
+	int j;
+	int cnt;
+	double max;
 
 	i = 1;
 	while (i <= 4)
@@ -52,11 +53,11 @@ int	row_down_chk(int **Map)
 		cnt = 1;
 		max = Map[4][i];
 		j = 3;
-		while (j > 0)
+		while (j >= 1)
 		{
-			if (max <= (double)Map[j][i] / (4 - j))
+			if (max <= (double)Map[j][i] / (5 - j))
 			{
-				max = (double)Map[j][i] / (4 - j);
+				max = (double)Map[j][i] / (5 - j);
 				cnt += 1;
 			}
 			j -= 1;
@@ -68,22 +69,22 @@ int	row_down_chk(int **Map)
 	return (1);
 }
 
-int	col_left_chk(int **Map)
+int col_left_chk(int Map[6][6])
 {
-	int		i;
-	int		j;
-	int		cnt;
-	double	max;
+	int i;
+	int j;
+	int cnt;
+	double max;
 
 	i = 1;
 	while (i <= 4)
 	{
 		cnt = 1;
-		max = Map[1][i];
+		max = Map[i][1];
 		j = 2;
 		while (j <= 4)
 		{
-			if (max < (double)Map[i][j] / j)
+			if (max <= (double)Map[i][j] / j)
 			{
 				max = (double)Map[i][j] / j;
 				cnt += 1;
@@ -97,24 +98,24 @@ int	col_left_chk(int **Map)
 	return (1);
 }
 
-int col_right_chk(int **Map)
+int col_right_chk(int Map[6][6])
 {
-int		i;
-	int		j;
-	int		cnt;
-	double	max;
+	int i;
+	int j;
+	int cnt;
+	double max;
 
 	i = 1;
 	while (i <= 4)
 	{
 		cnt = 1;
-		max = Map[4][i];
+		max = Map[i][4];
 		j = 3;
-		while (j > 0)
+		while (j >= 1)
 		{
-			if (max < (double)Map[i][j] / (4 - j))
+			if (max <= (double)Map[i][j] / (5 - j))
 			{
-				max = (double)Map[i][j] / (4 - j);
+				max = (double)Map[i][j] / (5 - j);
 				cnt += 1;
 			}
 			j -= 1;
@@ -123,5 +124,18 @@ int		i;
 			return (0);
 		i += 1;
 	}
-	return (1);	
+	return (1);
+}
+
+int total_chk(int Map[6][6])
+{
+	if (!row_up_chk(Map))
+		return (0);
+	if (!row_down_chk(Map))
+		return (0);
+	if (!col_left_chk(Map))
+		return (0);
+	if (!col_right_chk(Map))
+		return (0);
+	return (1);
 }
