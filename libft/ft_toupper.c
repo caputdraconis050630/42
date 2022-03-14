@@ -1,3 +1,5 @@
+#include "libft.h"
+
 int to_upper(int c)
 {
     if (c >= 'a' && c <= 'z')

@@ -1,3 +1,5 @@
+#include "libft.h"
+
 int ft_isspace(const char c)
 {
     if (c >= 9 && c <= 13)
