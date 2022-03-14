@@ -1,4 +1,4 @@
-void    ft_putendl_fd(char *s, int fd)
+void    ft_putestr_fd(char *s, int fd)
 {
     int i;
 
@@ -8,5 +8,4 @@ void    ft_putendl_fd(char *s, int fd)
         write(fd, &s[i], 1);
         i += 1;
     }
-    write(1, "\n", 1);
 }
