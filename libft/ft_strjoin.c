@@ -1,31 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/15 15:55:47 by guntkim           #+#    #+#             */
+/*   Updated: 2022/03/15 18:20:00 by guntkim          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "libft.h"
 
-char    *ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-    int     s1_len;
-    int     s2_len;
-    int     i;
-    char    *dest;
+	size_t	s1_len;
+	size_t	s2_len;
+	size_t	i;
+	char	*dest;
 
-    s1_len = 0;
-    s2_len = 0;
-    i = 0;
-    while (s1[s1_len])
-        s1_len += 1;
-    while (s2[s2_len])
-        s2_len += 1;
-    dst = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-    if (!dst)
-        return (0);
-    while (i < s1_len)
-    {
-        dst[i] = s1_len[i];
-        i += 1;
-    }
-    while (i < s1_len + s2_len)
-    {
-        dst[i] = s2_len[i - s1_len];
-        i += 1;
-    }
-    dst[i] = '\0';
-    return (dst);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	i = 0;
+	dst = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	if (!dst)
+		return (0);
+	while (i < s1_len)
+	{
+		dst[i] = s1_len[i];
+		i += 1;
+	}
+	while (i < s1_len + s2_len)
+	{
+		dst[i] = s2_len[i - s1_len];
+		i += 1;
+	}
+	dst[i] = '\0';
+	return (dst);
 }

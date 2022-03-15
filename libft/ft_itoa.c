@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/15 15:58:18 by guntkim           #+#    #+#             */
+/*   Updated: 2022/03/15 18:24:31 by guntkim          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdlib.h>
 
-static int		get_nb_size(unsigned int nb)
+static int	get_nb_size(unsigned int nb)
 {
-	unsigned int	size;
+	size_t	size;
 
 	size = 0;
 	while (nb >= 10)
@@ -13,7 +25,7 @@ static int		get_nb_size(unsigned int nb)
 	return (size + 1);
 }
 
-char			*ft_itoa(int nbr)
+char	*ft_itoa(int nbr)
 {
 	char			*str;
 	unsigned int	nb;
