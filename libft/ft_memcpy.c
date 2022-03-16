@@ -19,7 +19,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 
 	dstaddr = (unsigned char *)dst;
 	srcaddr = (unsigned char *)src;
-	if (!dst || !src)
+	if (!dstaddr || !srcaddr)
 		return (0);
 	if (n == 0)
 		return (dst);
