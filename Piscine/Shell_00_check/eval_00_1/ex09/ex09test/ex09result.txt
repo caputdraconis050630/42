@@ -1,0 +1,2 @@
+testfile1: 42 file
+testfile2: ASCII text
