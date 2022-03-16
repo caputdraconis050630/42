@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:56:36 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/15 18:28:02 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/16 17:08:20 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,22 @@
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char			*result;
-	unsigned int	start;
-	unsigned int	size;
-	unsigned int	spaces_count;
+	char	*dst;
+	size_t	front;
+	size_t	rear;
 
 	if (!s1)
-		return (NULL);
-	size = (unsigned int)ft_strlen((char*)s1);
-	spaces_count = ft_strcntfirstchar((char*)s, " \n\t");
-	start = spaces_count;
-	if (size > spaces_count)
-		spaces_count += ft_strcntlastchar((char*)s, " \n\t");
-	size -= spaces_count;
-	if (!(result = ft_memalloc((size_t)size + 1)))
-		return (NULL);
-	result = ft_strncpy(result, (char*)s + start, size);
-	return (result);
-}
-
-char    *ft_strtrim(char const *s1, char const *set)
-{
-    char    *result;
-    unsig
+		return (0);
+	if (!set)
+		return ((char *)s1);
+	front = 0;
+	rear = ft_strlen(s1);
+	while (s1[front] && ft_strchr(set, s1[front]))
+		front++;
+	while (s1[rear - 1] && ft_strchr(set, s1[rear - 1]) && rear > front)
+		rear--;
+	dst = (char *)malloc(sizeof(char) * (rear - front + 1));
+	if (dst)
+		ft_strlcpy(dst, &s1[front], rear - front + 1);
+	return (dst);
 }

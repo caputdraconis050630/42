@@ -6,49 +6,81 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:58:18 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/15 18:24:31 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/16 17:24:11 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-static int	get_nb_size(unsigned int nb)
+static size_t	get_size(int n)
 {
 	size_t	size;
 
-	size = 0;
-	while (nb >= 10)
+	size = 1;
+	if (n < 0)
 	{
-		nb /= 10;
-		++size;
+		size += 1;
+		n *= -1;
 	}
-	return (size + 1);
+	while (n > 9)
+	{
+		n /= 10;
+		size += 1;
+	}
+	return (size);
 }
 
-char	*ft_itoa(int nbr)
+static void	process_itoa(char *dst, int n, size_t len)
 {
-	char			*str;
-	unsigned int	nb;
-	unsigned int	index;
-	unsigned int	size;
-
-	if (nbr < 0)
-		nb = (unsigned int)(nbr * -1);
-	else
-		nb = (unsigned int)nbr;
-	size = (unsigned int)get_nb_size(nb);
-	index = 0;
-	if (!(str = (char*)malloc(sizeof(char) * (size + 1 + (nbr < 0 ? 1 : 0)))))
-		return (0);
-	if (nbr < 0 && (str[index] = '-'))
-		size++;
-	index = size - 1;
-	while (nb >= 10)
+	if (n < 0)
+		n *= -1;
+	while (n > 9)
 	{
-		str[index--] = (char)(nb % 10 + 48);
-		nb /= 10;
+		dst[--len] = ((n % 10) + '0');
+		n /= 10;
 	}
-	str[index] = (char)(nb % 10 + 48);
-	str[size] = '\0';
-	return (str);
+	dst[len - 1] = n + '0';
+}
+
+static void	process_min(char *dst)
+{
+	dst[0] = '-';
+	dst[1] = '2';
+	dst[2] = '1';
+	dst[3] = '4';
+	dst[4] = '7';
+	dst[5] = '4';
+	dst[6] = '8';
+	dst[7] = '3';
+	dst[8] = '6';
+	dst[9] = '4';
+	dst[10] = '8';
+	dst[11] = '\0';
+}
+
+char	*ft_itoa(int n)
+{
+	char	*dst;
+	size_t	len;
+
+	len = 0;
+	if (n == -2147483648)
+	{
+		dst = (char *)malloc(sizeof(char) * 12);
+		if (!dst)
+			return (0);
+		process_min(dst);
+	}
+	else
+	{
+		len = get_size(n);
+		dst = (char *)malloc(sizeof(char) * (len + 1));
+		if (!dst)
+			return (0);
+		if (n < 0)
+			dst[0] = '-';
+		dst[len] = '\0';
+		process_itoa(dst, n, len);
+	}
+	return (dst);
 }

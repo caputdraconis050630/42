@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:55:36 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/15 18:55:01 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/16 17:42:08 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ void	ft_putstr_fd(char *s, int fd)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return ;
 	while (s[i])
 	{
-		fd_putchar_fd(s[i], fd);
+		ft_putchar_fd(s[i], fd);
 		i += 1;
 	}
 }

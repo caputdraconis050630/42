@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:41:02 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/15 18:38:16 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/16 17:49:08 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	unsigned char	*s1addr;
 	unsigned char	*s2addr;
-	int				i;
+	size_t			i;
 
 	s1addr = (unsigned char *)s1;
 	s2addr = (unsigned char *)s2;
 	i = 0;
-	while (s1addr[i] && s2addr[i] && s1addr[i] == s2addr[i] && i < n)
+	while (s1addr[i] == s2addr[i] && i < n)
 		i += 1;
 	if (i == n)
 		return (0);

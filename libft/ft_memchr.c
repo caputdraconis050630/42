@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:40:11 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/15 18:31:46 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/16 14:56:53 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_memchr(const void *s, int c, size_t len)
 			return ((void *)&saddr[i]);
 		i += 1;
 	}
-	if (saddr[i] == (unsigned char)c)
+	if (saddr[i] == (unsigned char)c && i < len)
 		return ((void *)&saddr[i]);
 	return (0);
 }

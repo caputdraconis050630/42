@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:29:15 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/15 18:51:00 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/16 12:14:01 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	else
 	{
 		while (len--)
-			dst[len] = src[len];
+			dstaddr[len] = srcaddr[len];
 	}
 	return (dst);
 }
