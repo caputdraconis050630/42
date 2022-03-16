@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:56:40 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/16 16:42:19 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/16 18:04:36 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	srclen;
 	size_t	mallocsize;
 
-	i = 0;
-	srclen = ft_strlen(s);
 	if (!s)
 		return (0);
+	i = 0;
+	srclen = ft_strlen(s);
 	if (srclen <= start)
 		mallocsize = 1;
 	else if (srclen - start > len)
