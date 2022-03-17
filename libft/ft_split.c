@@ -18,15 +18,17 @@ static size_t	get_floors(char const *s, char c)
 	size_t	i;
 
 	i = 0;
-	cnt = 1;
+	cnt = 0;
 	while (s[i])
 	{
-		while (s[i] && s[i] == c)
-			i += 1;
-		while (s[i] && s[i] != c)
-			i += 1;
-		if (s[i - 1] != c)
-			cnt += 1;
+	    if (s[i] != c)
+        {
+            cnt += 1;
+            while (s[i] && s[i] != c)
+                i += 1;
+        }
+        else
+            i += 1;
 	}
 	return (cnt);
 }
@@ -83,7 +85,7 @@ char	**ft_split(char const *s, char c)
 	i = 0;
 	if (!s)
 		return (0);
-	dst = (char **)malloc(sizeof(char *) * get_floors(s, c) + 1);
+	dst = (char **)malloc(sizeof(char *) * (get_floors(s, c) + 1));
 	if (!dst)
 		return (0);
 	if (!process_split(dst, s, c))
