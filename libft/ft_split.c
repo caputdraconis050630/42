@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 12:47:42 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/16 17:43:01 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/17 14:07:31 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ static size_t	get_floors(char const *s, char c)
 	cnt = 0;
 	while (s[i])
 	{
-	    if (s[i] != c)
-        {
-            cnt += 1;
-            while (s[i] && s[i] != c)
-                i += 1;
-        }
-        else
-            i += 1;
+		if (s[i] != c)
+		{
+			cnt += 1;
+			while (s[i] && s[i] != c)
+				i += 1;
+		}
+		else
+			i += 1;
 	}
 	return (cnt);
 }

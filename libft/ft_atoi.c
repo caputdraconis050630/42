@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:41:59 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/16 11:47:28 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/17 14:03:59 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int	ft_isspace(const char c)
 int	ft_atoi(const char *str)
 {
 	long	num;
-	int				sign;
-	int				index;
+	int		sign;
+	int		index;
 
 	num = 0;
 	sign = 1;
@@ -41,10 +41,10 @@ int	ft_atoi(const char *str)
 	while (str[index] >= '0' && str[index] <= '9')
 	{
 		num = (num * 10) + (str[index] - '0');
-        if (num < 0 && sign == 1)
-            return (-1);
-        if (num < 0 && sign == -1)
-            return (0);
+		if (num < 0 && sign == 1)
+			return (-1);
+		if (num < 0 && sign == -1)
+			return (0);
 		index += 1;
 	}
 	return ((int)num * sign);

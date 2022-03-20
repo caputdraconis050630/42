@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:29:15 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/16 12:14:01 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/17 14:06:41 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	unsigned char	*srcaddr;
 	size_t			i;
 
-    if (!dst || !src)
-        return (0);
-    dstaddr = (unsigned char *)dst;
+	if (!dst || !src)
+		return (0);
+	dstaddr = (unsigned char *)dst;
 	srcaddr = (unsigned char *)src;
 	i = 0;
 	if (dstaddr <= srcaddr)
