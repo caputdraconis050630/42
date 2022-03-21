@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:47:07 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/20 16:19:42 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/21 17:56:12 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	*ft_strdup(const char *s1)
 	char	*dest;
 
 	i = 0;
-	if (!s1)
-		return (0);
-	dest = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
+	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
 	if (!dest)
 		return (0);
 	while (s1[i])

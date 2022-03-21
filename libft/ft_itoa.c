@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 static size_t	get_size(int n)
 {
@@ -42,22 +42,6 @@ static void	process_itoa(char *dst, int n, size_t len)
 	dst[len - 1] = n + '0';
 }
 
-static void	process_min(char *dst)
-{
-	dst[0] = '-';
-	dst[1] = '2';
-	dst[2] = '1';
-	dst[3] = '4';
-	dst[4] = '7';
-	dst[5] = '4';
-	dst[6] = '8';
-	dst[7] = '3';
-	dst[8] = '6';
-	dst[9] = '4';
-	dst[10] = '8';
-	dst[11] = '\0';
-}
-
 char	*ft_itoa(int n)
 {
 	char	*dst;
@@ -66,10 +50,9 @@ char	*ft_itoa(int n)
 	len = 0;
 	if (n == -2147483648)
 	{
-		dst = (char *)malloc(sizeof(char) * 12);
+		dst = (char *)ft_strdup("-2147483648");
 		if (!dst)
 			return (0);
-		process_min(dst);
 	}
 	else
 	{

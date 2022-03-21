@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:56:36 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/16 17:08:20 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/20 18:43:43 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	rear = ft_strlen(s1);
 	while (s1[front] && ft_strchr(set, s1[front]))
 		front++;
-	while (s1[rear - 1] && ft_strchr(set, s1[rear - 1]) && rear > front)
+	while ((rear > front) && s1[rear - 1] && ft_strchr(set, s1[rear - 1]))
 		rear--;
 	dst = (char *)malloc(sizeof(char) * (rear - front + 1));
 	if (dst)

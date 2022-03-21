@@ -6,21 +6,19 @@
 #    By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 11:49:26 by guntkim           #+#    #+#              #
-#    Updated: 2022/03/20 14:01:35 by guntkim          ###   ########.fr        #
+#    Updated: 2022/03/21 17:04:17 by guntkim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			=	gcc
+CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 
 NAME		=	libft.a
 
 AR			=	ar
-ARFLAGS		=	-rc
+ARFLAGS		=	-rcu
 
 RM			=	rm -f
-
-INC			=	./libft.h
 
 SRCS		=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c\
 				ft_memset.c	ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_strlcat.c\
@@ -53,6 +51,8 @@ fclean:			clean
 re:				fclean all
 
 bonus:			$(OBJS) $(OBJS_BONUS)
-				$(AR) $(ARFLAGS) $(NAME) $^
+				@if [ -d ft_lstnew.o];	then
+					$(AR) $(ARFLAGS) $(NAME) $^
+				fi
 
-.PHONY:			all clean fclean re
+.PHONY:			all clean fclean re bonus

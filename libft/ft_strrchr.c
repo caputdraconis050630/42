@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:35:52 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/15 18:21:30 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/21 17:54:53 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ char	*ft_strrchr(const char *s, int c)
 {
 	int	len;
 
-	len = 0;
-	while (s[len])
-		len += 1;
+	len = ft_strlen(s);
 	while (len >= 0)
 	{
 		if (s[len] == (unsigned char)c)
