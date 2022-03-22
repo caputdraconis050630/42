@@ -14,7 +14,7 @@ CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 
 AR			=	ar
-ARFLAGS		=	-rcu
+ARFLAGS		=	-rc
 
 RM			=	rm -f
 
@@ -35,12 +35,10 @@ OBJS_BONUS	=	$(SRCS_BONUS:.c=.o)
 NAME		=	libft.a
 
 ifdef BONUS_FLAG
-	OBJ_FILES = $(OBJS) $(BOBJS)
+	OBJ_FILES = $(OBJS) $(OBJS_BONUS)
 else
 	OBJ_FILES = $(OBJS)
 endif
-
-FLAG		=	0
 
 all:			$(NAME)
 
