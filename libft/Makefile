@@ -13,8 +13,6 @@
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror
 
-NAME		=	libft.a
-
 AR			=	ar
 ARFLAGS		=	-rcu
 
@@ -34,9 +32,19 @@ OBJS		=	${SRCS:.c=.o}
 
 OBJS_BONUS	=	$(SRCS_BONUS:.c=.o)
 
+NAME		=	libft.a
+
+ifdef BONUS_FLAG
+	OBJ_FILES = $(OBJS) $(BOBJS)
+else
+	OBJ_FILES = $(OBJS)
+endif
+
+FLAG		=	0
+
 all:			$(NAME)
 
-$(NAME):		${OBJS}
+$(NAME):		${OBJ_FILES}
 				$(AR) $(ARFLAGS) $@ $^
 
 %.o: 			%.c
@@ -50,9 +58,7 @@ fclean:			clean
 
 re:				fclean all
 
-bonus:			$(OBJS) $(OBJS_BONUS)
-				@if [ -d ft_lstnew.o];	then
-					$(AR) $(ARFLAGS) $(NAME) $^
-				fi
+bonus:			
+				make BONUS_FLAG=1 all
 
 .PHONY:			all clean fclean re bonus
