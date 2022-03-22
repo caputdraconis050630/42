@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:46:05 by guntkim           #+#    #+#             */
-/*   Updated: 2022/03/15 18:29:55 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/03/22 15:33:17 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void    *dest;
+	void	*dest;
 
 	dest = (void *)malloc(size * count);
 	if (!dest)
 		return (0);
 	ft_memset(dest, 0, size * count);
-    return (dest);
+	return (dest);
 }

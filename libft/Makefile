@@ -6,7 +6,7 @@
 #    By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 11:49:26 by guntkim           #+#    #+#              #
-#    Updated: 2022/03/21 17:04:17 by guntkim          ###   ########.fr        #
+#    Updated: 2022/03/22 15:45:38 by guntkim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,14 +35,14 @@ OBJS_BONUS	=	$(SRCS_BONUS:.c=.o)
 NAME		=	libft.a
 
 ifdef BONUS_FLAG
-	OBJ_FILES = $(OBJS) $(OBJS_BONUS)
+	OBJS_FILES = $(OBJS) $(OBJS_BONUS)
 else
-	OBJ_FILES = $(OBJS)
+	OBJS_FILES = $(OBJS)
 endif
 
 all:			$(NAME)
 
-$(NAME):		${OBJ_FILES}
+$(NAME):		${OBJS_FILES}
 				$(AR) $(ARFLAGS) $@ $^
 
 %.o: 			%.c
