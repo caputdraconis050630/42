@@ -6,7 +6,7 @@
 #    By: guntkim <guntkim@student.42seoul.k>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/16 11:49:26 by guntkim           #+#    #+#              #
-#    Updated: 2022/03/22 15:45:38 by guntkim          ###   ########.fr        #
+#    Updated: 2022/03/22 18:14:58 by guntkim          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS		=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strl
 SRCS_BONUS	=	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c\
 				ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
-OBJS		=	${SRCS:.c=.o}
+OBJS		=	$(SRCS:.c=.o)
 
 OBJS_BONUS	=	$(SRCS_BONUS:.c=.o)
 
@@ -56,7 +56,7 @@ fclean:			clean
 
 re:				fclean all
 
-bonus:			
-				make BONUS_FLAG=1 all
+bonus:
+				@make BONUS_FLAG=1 all
 
 .PHONY:			all clean fclean re bonus
