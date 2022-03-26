@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: guntkim <guntkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 18:41:25 by guntakkim         #+#    #+#             */
-/*   Updated: 2022/03/25 18:41:25 by guntakkim        ###   ########.fr       */
+/*   Created: 2022/03/25 18:41:25 by guntkim         #+#    #+#             */
+/*   Updated: 2022/03/25 18:41:25 by guntkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ typedef struct s_staticVar
 
 // get_next_line.c Functions
 char    *get_next_line(int fd);
+char    *get_ret_pointer(char *s);
 
 // get_next_line_utils.c Functions
 size_t  ft_strlen(char *s);
 void    ft_strlcat(char *s1, char *s2);
+char    *ft_strdup(char *s, size_t len);
 
 #endif
