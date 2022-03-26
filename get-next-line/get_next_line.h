@@ -25,13 +25,9 @@
 #   define OPEN_MAX 256
 # endif
 
-# ifndef TRUE
-#   define TRUE 1
-# endif
-
-# ifndef FALSE
-#   define FALSE 0
-# endif
+# define SUCCESS 1
+# define FAIL -1
+# define EOF 0
 
 typedef struct s_staticVar
 {
@@ -45,7 +41,8 @@ char    *get_ret_pointer(char *s);
 
 // get_next_line_utils.c Functions
 size_t  ft_strlen(char *s);
-void    ft_strlcat(char *s1, char *s2);
 char    *ft_strdup(char *s, size_t len);
+void    *ft_memcpy(void *dst, void *src, size_t size);
+char    *ft_strjoin(char const *s1, char const *s2);
 
 #endif

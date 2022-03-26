@@ -16,12 +16,11 @@
 
 int	main(void)
 {
-	int		temp;
 	int		fd;
 	char	*line;
 
-	fd = open("test.txt", O_RDONLY);
-	while ((temp = (get_next_line(fd, &line)) > 0))
+	fd = open("test", O_RDONLY);
+	while ((line = get_next_line(fd)) != 0)
 	{
 		printf("%s\n", line);
 		free(line);

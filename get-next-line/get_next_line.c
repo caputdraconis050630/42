@@ -17,7 +17,7 @@ char    *get_next_line(int fd)
     static t_staticVar  staticVar;
     char                *ret;
     char                *buf;
-    size_t              read_size;
+    int                 read_size;
 
     staticVar.index = 0;
     buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
@@ -25,7 +25,7 @@ char    *get_next_line(int fd)
     if (read_size == -1) // Error
         return (0);
     buf[read_size] = '\0';
-    ft_strlcat(staticVar.store, read);
+    ft_strlcat(staticVar.store, buf);
     ret = get_ret_pointer(&(staticVar.store[staticVar.index]));
     // validate check ret
     return (ret);
