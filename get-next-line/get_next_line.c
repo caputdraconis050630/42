@@ -12,35 +12,42 @@
 
 #include "get_next_line.h"
 
-char    *get_next_line(int fd)
+static void	free_str(char *str)
 {
-    static t_staticVar  staticVar;
-    char                *ret;
-    char                *buf;
-    int                 read_size;
-
-    staticVar.index = 0;
-    buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-    read_size = read(fd, buf, BUFFER_SIZE);
-    if (read_size == -1) // Error
-        return (0);
-    buf[read_size] = '\0';
-    ft_strlcat(staticVar.store, buf);
-    ret = get_ret_pointer(&(staticVar.store[staticVar.index]));
-    // validate check ret
-    return (ret);
+	free(str);
+	str = NULL;
 }
 
-char    *get_ret_pointer(char *s)
+// if there is a \n, return '\n' index
+// else, return FAIL
+static size_t	is_there_nl(char *s)
 {
-    size_t  len;
-    char    *dst;
+	size_t	i;
 
-    len = 0;
-    while (s[len] != '\0' && s[len] == '\n')
-        len += 1;
-    dst = ft_strdup(s, len);
-    if (!dst)
-        return (NULL);
-    return (dst);
+	i = 0;
+	if (!s)
+		return (FAIL);
+	while (s[i])
+	{
+		if (s[i] == '\n')
+			return (i);
+		i += 1;
+	}
+	return (FAIL);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	*save[OPEN_MAX];
+	char		*buffer;
+	char		*tmp;
+
+	if (fd > OPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
+		return (FAIL);
+	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (FAIL);
+
+	free_str(buffer);
+	return (get_ret_line());
 }
