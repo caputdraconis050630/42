@@ -36,12 +36,13 @@ typedef struct s_staticVar
 } t_staticVar;
 
 // get_next_line.c Functions
-char    *get_next_line(int fd);
-char    *get_ret_pointer(char *s);
+static size_t	is_there_nl(char *s);
+static size_t	get_ret_line();
+char	*get_next_line(int fd);
 
 // get_next_line_utils.c Functions
-size_t  ft_strlen(char *s);
-char    *ft_strdup(char *s, size_t len);
+void	free_str(char *str);
+char    *ft_strndup(char *s, size_t len);
 void    *ft_memcpy(void *dst, void *src, size_t size);
 char    *ft_strjoin(char const *s1, char const *s2);
 

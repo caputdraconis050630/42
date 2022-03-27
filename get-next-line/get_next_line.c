@@ -49,9 +49,19 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (FAIL);
-	while ((index = is_there_nl(store[fd])) == FAIL && (read_size = read(fd, buffer, BUFFER_SIZE)) > 0)
+	index = is_there_nl(store[fd]);
+	read_size = read(fd, buffer, BUFFER_SIZE);
+	while (index == FAIL && read_size > 0)
 	{
-		
+		buffer[read_size] = '\0';
+		if (store[fd] == NULL)
+			tmp = ft_strndup(buffer, read_size);
+		else
+			tmp = ft_strjoin(store[fd], buffer);
+		free_str(store[fd]);
+		store[fd] = tmp;
+		index = is_there_nl(store[fd]);
+		read_size = read(fd, buffer, BUFFER_SIZE);
 	}
 	free_str(buffer);
 	return (get_ret_line());
