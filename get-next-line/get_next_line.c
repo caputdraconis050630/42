@@ -19,7 +19,7 @@ static size_t	is_there_nl(char *s)
 	i = 0;
 	if (!s)
 		return (FAIL);
-	while (s[i] != NULL)
+	while (s[i])
 	{
 		if (s[i] == '\n')
 			return (i);
@@ -36,7 +36,8 @@ static char	*get_ret_line(char *store)
 	char	*tmp;
 
 	nl_index = is_there_nl(store);
-	while (store[len] != NULL)
+	len = 0;
+	while (store[len])
 		len += 1;
 	dst = ft_strndup(store, nl_index);
 	tmp = ft_strndup(&store[nl_index + 1], len);
