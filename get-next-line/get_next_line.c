@@ -38,16 +38,21 @@ static size_t	is_there_nl(char *s)
 
 char	*get_next_line(int fd)
 {
-	static char	*save[OPEN_MAX];
+	static char	*store[OPEN_MAX];
 	char		*buffer;
 	char		*tmp;
+	size_t		index;
+	size_t		read_size;
 
 	if (fd > OPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
 		return (FAIL);
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (FAIL);
-
+	while ((index = is_there_nl(store[fd])) == FAIL && (read_size = read(fd, buffer, BUFFER_SIZE)) > 0)
+	{
+		
+	}
 	free_str(buffer);
 	return (get_ret_line());
 }
