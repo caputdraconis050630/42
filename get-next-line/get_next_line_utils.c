@@ -27,9 +27,9 @@ char    *ft_strjoin(char const *s1, char const *s2)
 
     s1_len = 0;
     s2_len = 0;
-	while (s1[s1_len])
+	while (s1[s1_len] != NULL)
 		s1_len += 1;
-	while (s2[s2_len])
+	while (s2[s2_len] != NULL)
 		s2_len += 1;
     dst = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
     if (!dst)
@@ -48,7 +48,7 @@ char    *ft_strndup(char *s, size_t len)
 
     i = 0;
     s_len = 0;
-	while (s[s_len])
+	while (s[s_len] != NULL)
 		s_len += 1;
     if (s_len < len)
         dst = (char *)malloc(sizeof(char) * (s_len + 1));
@@ -56,7 +56,7 @@ char    *ft_strndup(char *s, size_t len)
         dst = (char *)malloc(sizeof(char) * (len + 1));
     if (!dst)
         return (NULL);
-    while (s[i] && i < len)
+    while (s[i] != NULL && i < len)
     {
         dst[i] = s[i];
         i += 1;

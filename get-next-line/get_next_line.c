@@ -12,14 +12,6 @@
 
 #include "get_next_line.h"
 
-static void	free_str(char *str)
-{
-	free(str);
-	str = NULL;
-}
-
-// if there is a \n, return '\n' index
-// else, return FAIL
 static size_t	is_there_nl(char *s)
 {
 	size_t	i;
@@ -27,7 +19,7 @@ static size_t	is_there_nl(char *s)
 	i = 0;
 	if (!s)
 		return (FAIL);
-	while (s[i])
+	while (s[i] != NULL)
 	{
 		if (s[i] == '\n')
 			return (i);
@@ -36,11 +28,41 @@ static size_t	is_there_nl(char *s)
 	return (FAIL);
 }
 
+static char	*get_ret_line(char *store)
+{
+	size_t	nl_index;
+	size_t	len;
+	char	*dst;
+	char	*tmp;
+
+	nl_index = is_there_nl(store);
+	while (store[len] != NULL)
+		len += 1;
+	dst = ft_strndup(store, nl_index);
+	tmp = ft_strndup(&store[nl_index + 1], len);
+	if (!dst || !tmp)
+		return (FAIL);
+	free_str(store);
+	store = tmp;
+	return (dst);
+}
+
+static void	mid_process(char *buffer, char *store, size_t read_size)
+{
+	char	*tmp;
+
+	if (store == NULL)
+		tmp = ft_strndup(buffer, read_size);
+	else
+		tmp = ft_strjoin(store, buffer);
+	free_str(store);
+	store = tmp;
+}
+
 char	*get_next_line(int fd)
 {
 	static char	*store[OPEN_MAX];
 	char		*buffer;
-	char		*tmp;
 	size_t		index;
 	size_t		read_size;
 
@@ -54,15 +76,12 @@ char	*get_next_line(int fd)
 	while (index == FAIL && read_size > 0)
 	{
 		buffer[read_size] = '\0';
-		if (store[fd] == NULL)
-			tmp = ft_strndup(buffer, read_size);
-		else
-			tmp = ft_strjoin(store[fd], buffer);
-		free_str(store[fd]);
-		store[fd] = tmp;
+		mid_process(buffer, store[fd], read_size);
 		index = is_there_nl(store[fd]);
 		read_size = read(fd, buffer, BUFFER_SIZE);
 	}
 	free_str(buffer);
-	return (get_ret_line());
+	if (read_size < 0)
+		return (FAIL);
+	return (get_ret_line(store[fd]));
 }
