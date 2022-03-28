@@ -12,9 +12,9 @@
 
 #include "get_next_line.h"
 
-static size_t	is_there_nl(char *s)
+static int	is_there_nl(char *s)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	if (!s)
@@ -42,7 +42,7 @@ static char	*get_ret_line(char *store)
 	dst = ft_strndup(store, nl_index);
 	tmp = ft_strndup(&store[nl_index + 1], len);
 	if (!dst || !tmp)
-		return (FAIL);
+		return ((char *)FAIL);
 	free_str(store);
 	store = tmp;
 	return (dst);
@@ -64,14 +64,14 @@ char	*get_next_line(int fd)
 {
 	static char	*store[OPEN_MAX];
 	char		*buffer;
-	size_t		index;
+	int			index;
 	size_t		read_size;
 
 	if (fd > OPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
-		return (FAIL);
+		return ((char *)FAIL);
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
-		return (FAIL);
+		return ((char *)FAIL);
 	index = is_there_nl(store[fd]);
 	read_size = read(fd, buffer, BUFFER_SIZE);
 	while (index == FAIL && read_size > 0)
@@ -83,6 +83,6 @@ char	*get_next_line(int fd)
 	}
 	free_str(buffer);
 	if (read_size < 0)
-		return (FAIL);
+		return ((char *)FAIL);
 	return (get_ret_line(store[fd]));
 }

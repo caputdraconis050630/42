@@ -36,7 +36,7 @@ typedef struct s_staticVar
 } t_staticVar;
 
 // get_next_line.c Functions
-static size_t	is_there_nl(char *s);
+static int		is_there_nl(char *s);
 static char		*get_ret_line(char *store);
 static void		mid_process(char *buffer, char *store, size_t read_size);
 char			*get_next_line(int fd);
