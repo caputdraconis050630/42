@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-static int	is_there_nl(char *s)
+int	is_there_nl(char *s)
 {
 	int	i;
 
@@ -28,9 +28,9 @@ static int	is_there_nl(char *s)
 	return (FAIL);
 }
 
-static char	*get_ret_line(char *store)
+char	*get_ret_line(char *store)
 {
-	size_t	nl_index;
+	int		nl_index;
 	size_t	len;
 	char	*dst;
 	char	*tmp;
@@ -42,13 +42,13 @@ static char	*get_ret_line(char *store)
 	dst = ft_strndup(store, nl_index);
 	tmp = ft_strndup(&store[nl_index + 1], len);
 	if (!dst || !tmp)
-		return ((char *)FAIL);
+		return (NULL);
 	free_str(store);
 	store = tmp;
 	return (dst);
 }
 
-static void	mid_process(char *buffer, char *store, size_t read_size)
+void	mid_process(char *buffer, char *store, size_t read_size)
 {
 	char	*tmp;
 
@@ -68,10 +68,10 @@ char	*get_next_line(int fd)
 	size_t		read_size;
 
 	if (fd > OPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
-		return ((char *)FAIL);
+		return (NULL);
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
-		return ((char *)FAIL);
+		return (NULL);
 	index = is_there_nl(store[fd]);
 	read_size = read(fd, buffer, BUFFER_SIZE);
 	while (index == FAIL && read_size > 0)
@@ -83,6 +83,6 @@ char	*get_next_line(int fd)
 	}
 	free_str(buffer);
 	if (read_size < 0)
-		return ((char *)FAIL);
+		return (NULL);
 	return (get_ret_line(store[fd]));
 }
