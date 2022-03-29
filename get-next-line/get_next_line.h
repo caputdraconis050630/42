@@ -21,23 +21,10 @@
 #  define BUFFER_SIZE 42
 # endif
 
-# ifndef OPEN_MAX
-#  define OPEN_MAX 256
-# endif
-
-# define SUCCESS 1
-# define FAIL -1
-
-typedef struct s_staticVar
-{
-	char	*store;
-	size_t	index;
-}	t_staticVar;
-
 // get_next_line.c Functions
 int		is_there_nl(char *s);
 char	*get_ret_line(char *store);
-void	mid_process(char *buffer, char *store, size_t read_size);
+void	mid_process(char *buffer, char *store, int fd, size_t read_size);
 char	*get_next_line(int fd);
 // get_next_line_utils.c Functions
 void	free_str(char *str);

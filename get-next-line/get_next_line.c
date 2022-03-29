@@ -18,14 +18,14 @@ int	is_there_nl(char *s)
 
 	i = 0;
 	if (!s)
-		return (FAIL);
+		return (-1);
 	while (s[i])
 	{
 		if (s[i] == '\n')
 			return (i);
 		i += 1;
 	}
-	return (FAIL);
+	return (-1);
 }
 
 char	*get_ret_line(char *store)
@@ -48,16 +48,16 @@ char	*get_ret_line(char *store)
 	return (dst);
 }
 
-void	mid_process(char *buffer, char *store, size_t read_size)
+void	mid_process(char *buffer, char **store, int fd, size_t read_size)
 {
 	char	*tmp;
 
-	if (store == NULL)
+	if (store[fd] == NULL)
 		tmp = ft_strndup(buffer, read_size);
 	else
 		tmp = ft_strjoin(store, buffer);
-	free_str(store);
-	store = tmp;
+	free_str(store[fd]);
+	store[fd] = tmp;
 }
 
 char	*get_next_line(int fd)
@@ -70,14 +70,14 @@ char	*get_next_line(int fd)
 	if (fd > OPEN_MAX || fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
+	if (!buffer) // Null Guard
 		return (NULL);
 	index = is_there_nl(store[fd]);
 	read_size = read(fd, buffer, BUFFER_SIZE);
-	while (index == FAIL && read_size > 0)
+	while (index == -1 && read_size > 0)
 	{
 		buffer[read_size] = '\0';
-		mid_process(buffer, store[fd], read_size);
+		mid_process(buffer, store, fd, read_size);
 		index = is_there_nl(store[fd]);
 		read_size = read(fd, buffer, BUFFER_SIZE);
 	}

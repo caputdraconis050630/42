@@ -55,7 +55,7 @@ char	*ft_strndup(char *s, size_t len)
 		dst = (char *)malloc(sizeof(char) * (len + 1));
 	if (!dst)
 		return (NULL);
-	while (s[i] && i < len)
+	while (i < s_len && i < len)
 	{
 		dst[i] = s[i];
 		i += 1;
