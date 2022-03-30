@@ -12,9 +12,9 @@
 
 #include "get_next_line.h"
 
-int	is_there_nl(char *s)
+ssize_t	is_there_nl(char *s)
 {
-	int	i;
+	ssize_t	i;
 
 	i = 0;
 	if (!s)
@@ -30,8 +30,8 @@ int	is_there_nl(char *s)
 
 char	*get_ret_line(char *store)
 {
-	int		nl_index;
-	size_t	len;
+	ssize_t	nl_index;
+	ssize_t	len;
 	char	*dst;
 	char	*tmp;
 
@@ -48,7 +48,7 @@ char	*get_ret_line(char *store)
 	return (dst);
 }
 
-void	mid_process(char *buffer, char *store, size_t read_size)
+void	mid_process(char *buffer, char *store, ssize_t read_size)
 {
 	char	*tmp;
 
@@ -64,13 +64,13 @@ char	*get_next_line(int fd)
 {
 	static char	*store;
 	char		*buffer;
-	int			index;
-	size_t		read_size;
+	ssize_t		index;
+	ssize_t		read_size; 
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer) // Null Guard
+	if (!buffer)
 		return (NULL);
 	index = is_there_nl(store);
 	read_size = read(fd, buffer, BUFFER_SIZE);
