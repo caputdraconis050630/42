@@ -12,6 +12,12 @@
 
 #include "get_next_line.h"
 
+void	free_str(char *str)
+{
+	free(str);
+	str = NULL;
+}
+
 ssize_t	ft_strlen(const char *str)
 {
 	ssize_t	i;
@@ -20,12 +26,6 @@ ssize_t	ft_strlen(const char *str)
 	while (str[i])
 		i += 1;
 	return (i);
-}
-
-void	free_str(char *str)
-{
-	free(str);
-	str = NULL;
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)

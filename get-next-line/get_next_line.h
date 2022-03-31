@@ -23,8 +23,9 @@
 
 ssize_t	is_there_nl(char *s);
 char	*get_ret_line(char *store);
-void	mid_process(char *buffer, char *store, ssize_t read_size);
+char	*mid_process(char *buffer, char *store, ssize_t read_size);
 char	*get_next_line(int fd);
+char	*process_store(char *store);
 void	free_str(char *str);
 ssize_t	ft_strlen(const char *str);
 char	*ft_strndup(char *s, ssize_t len);

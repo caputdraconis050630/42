@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "get_next_line.h"
 
 ssize_t	is_there_nl(char *s)
@@ -28,43 +29,50 @@ ssize_t	is_there_nl(char *s)
 	return (-1);
 }
 
-char	*get_ret_line(char *store)
+char	*process_store(char *store)
 {
-	ssize_t	nl_index;
-	ssize_t	len;
-	char	*dst;
 	char	*tmp;
+	ssize_t	len;
+	ssize_t	index;
 
-	nl_index = is_there_nl(store);
-	len = 0;
-	while (store[len])
-		len += 1;
-	dst = ft_strndup(store, nl_index);
-	tmp = ft_strndup(&store[nl_index + 1], len);
-	if (!dst || !tmp)
-		return (NULL);
+	index = is_there_nl(store);
+	len = ft_strlen(store);
+	tmp = ft_strndup(&store[index + 1], len - index);
 	free_str(store);
 	store = tmp;
+	return (store);
+}
+
+char	*get_ret_line(char *store)
+{
+	ssize_t	index;
+	char	*dst;
+
+	index = is_there_nl(store);
+	dst = ft_strndup(store, index);
+	if (!dst)
+		return (NULL);
 	return (dst);
 }
 
-void	mid_process(char *buffer, char *store, ssize_t read_size)
+char	*mid_process(char *buffer, char *store, ssize_t read_size)
 {
 	char	*tmp;
 
-	if (store == NULL)
+	if (store == (char *)NULL)
 		tmp = ft_strndup(buffer, read_size);
 	else
 		tmp = ft_strjoin(store, buffer);
-	free_str(store);
-	store = tmp;
+	if (store != (char *)NULL)
+		free_str(store);
+	return (tmp);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*store;
 	char		*buffer;
-	ssize_t		index;
+	char		*dst;
 	ssize_t		read_size; 
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
@@ -72,17 +80,18 @@ char	*get_next_line(int fd)
 	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-	index = is_there_nl(store);
 	read_size = read(fd, buffer, BUFFER_SIZE);
-	while (index == -1 && read_size > 0)
+	while (is_there_nl(store) == -1 && read_size > 0)
 	{
 		buffer[read_size] = '\0';
-		mid_process(buffer, store, read_size);
-		index = is_there_nl(store);
+		store = mid_process(buffer, store, read_size);
 		read_size = read(fd, buffer, BUFFER_SIZE);
 	}
 	free_str(buffer);
 	if (read_size < 0)
 		return (NULL);
-	return (get_ret_line(store));
+	dst = get_ret_line(store);
+	store = process_store(store);
+	printf("%s\n", dst);
+	return (dst);
 }
