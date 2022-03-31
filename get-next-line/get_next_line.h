@@ -21,6 +21,14 @@
 #  define BUFFER_SIZE 42
 # endif
 
+typedef struct s_store
+{
+	int					fd;
+    const char			*store;
+    struct s_store		*next;
+    struct s_store		*prev;
+} t_store;
+
 ssize_t	is_there_nl(char *s);
 char	*get_ret_line(char *store);
 char	*mid_process(char *buffer, char *store, ssize_t read_size);

@@ -60,11 +60,13 @@ char	*mid_process(char *buffer, char *store, ssize_t read_size)
 	char	*tmp;
 
 	if (store == (char *)NULL)
+	{
 		tmp = ft_strndup(buffer, read_size);
+		free_str(store);
+	}
 	else
 		tmp = ft_strjoin(store, buffer);
-	if (store != (char *)NULL)
-		free_str(store);
+	free_str(store);
 	return (tmp);
 }
 
