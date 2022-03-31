@@ -37,7 +37,7 @@ char	*process_store(char *store)
 
 	index = is_there_nl(store);
 	len = ft_strlen(store);
-	tmp = ft_strndup(&store[index + 1], len - index);
+	tmp = ft_strndup(&store[index + 1], len - index + 1);
 	free_str(store);
 	store = tmp;
 	return (store);
