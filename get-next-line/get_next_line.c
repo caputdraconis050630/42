@@ -6,7 +6,7 @@
 /*   By: guntkim <guntkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:52:00 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/01 20:45:36 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/04/01 21:41:46 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ char	*get_ret(t_store *now)
 	char	*dst;
 	char	*store;
 
-	while (now->store[len])
-		len += 1;
 	idx = is_there_nl(now->store);
 	if (idx == FT_FAIL)
 		return (now->store);
