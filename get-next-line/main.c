@@ -6,15 +6,34 @@ int main(void)
 {
 	char	*buffer;
 	int		fd;
+	int		read_size;
+
+	buffer = (char *)malloc(sizeof(char) * 43);
+	if (!buffer)
+		return (0);
 
 	fd = open("a.txt", O_RDONLY);
-	buffer = get_next_line(fd);
-	while (buffer != (char *)NULL)
-	{
-		printf("%s\n", buffer);
-		buffer = get_next_line(fd);
-		free(buffer);
-	}
-	if (buffer)
-		free(buffer);
+
+	read_size = read(fd, buffer, 42);
+	buffer[read_size] = '\0';
+	printf("%s\n", buffer);
+	printf("%d\n", read_size);
+
+	read_size = read(fd, buffer, 42);
+	buffer[read_size] = '\0';
+	printf("%s\n", buffer);
+	printf("%d\n", read_size);
+
+	read_size = read(fd, buffer, 42);
+	buffer[read_size] = '\0';
+	printf("%s\n", buffer);
+	printf("%d\n", read_size);
+
+	read_size = read(fd, buffer, 42);
+	buffer[read_size] = '\0';
+	printf("%s\n", buffer);
+	printf("%d\n", read_size);
+
+	
+	free(buffer);
 }
