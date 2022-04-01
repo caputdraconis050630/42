@@ -3,41 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntkim <guntkim@student.42.fr>        +#+  +:+       +#+        */
+/*   By: guntkim <guntkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 18:41:25 by guntkim         #+#    #+#             */
-/*   Updated: 2022/03/25 18:41:25 by guntkim        ###   ########.fr       */
+/*   Created: 2022/04/01 16:52:02 by guntkim           #+#    #+#             */
+/*   Updated: 2022/04/01 19:54:33 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
+# include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <limits.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE (42)
+# endif
+
+# ifndef FT_FAIL
+#  define FT_FAIL (-1)
 # endif
 
 typedef struct s_store
 {
-	int					fd;
-    const char			*store;
-    struct s_store		*next;
-    struct s_store		*prev;
-} t_store;
+	int				fd;
+	char			*store;
+	struct s_store	*next;
+}	t_store;
 
-ssize_t	is_there_nl(char *s);
-char	*get_ret_line(char *store);
-char	*mid_process(char *buffer, char *store, ssize_t read_size);
-char	*get_next_line(int fd);
-char	*process_store(char *store);
-void	free_str(char *str);
-ssize_t	ft_strlen(const char *str);
-char	*ft_strndup(char *s, ssize_t len);
-void	*ft_memcpy(void *dst, void *src, ssize_t size);
-char	*ft_strjoin(char const *s1, char const *s2);
+// Prototype - get_next_line.c
+void		free_str(char *str);
+char		*process_store(t_store *now, char *buf, ssize_t read_size);
+char		*get_ret(t_store *now);
+char		*get_read(int fd, t_store *now, char *buf);
+char		*get_next_line(int fd);
 
+// Prototype - get_next_line_utils.c
+t_store		*get_t_store(int fd, t_store *head);
+t_store		*ft_newlst(int fd);
+ssize_t		is_there_nl(char *store);
+char		*ft_strndup(char *str, ssize_t len);
+char		*ft_strjoin(char *s1, char *s2);
 #endif

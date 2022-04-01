@@ -3,79 +3,122 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntakkim <guntkim@student.42.fr>        +#+  +:+       +#+        */
+/*   By: guntkim <guntkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 18:41:33 by guntkim         #+#    #+#             */
-/*   Updated: 2022/03/25 18:41:33 by guntkim        ###   ########.fr       */
+/*   Created: 2022/04/01 16:51:56 by guntkim           #+#    #+#             */
+/*   Updated: 2022/04/01 19:53:27 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	free_str(char *str)
+t_store	*get_t_store(int fd, t_store *head)
 {
-	free(str);
-	str = NULL;
-}
-
-ssize_t	ft_strlen(const char *str)
-{
-	ssize_t	i;
-
-	i = 0;
-	while (str[i])
-		i += 1;
-	return (i);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*dst;
-	ssize_t	s1_len;
-	ssize_t	s2_len;
-
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	dst = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
-	if (!dst)
-		return (NULL);
-	ft_memcpy(dst, (void *)s1, s1_len);
-	ft_memcpy(dst + s1_len, (void *)s2, s2_len);
-	dst[s1_len + s2_len] = '\0';
-	return (dst);
-}
-
-char	*ft_strndup(char *s, ssize_t len)
-{
-	char	*dst;
-	ssize_t	i;
-
-	i = 0;
-	dst = (char *)malloc(sizeof(char) * (len + 1));
-	if (!dst)
-		return (NULL);
-	while (i < len)
+	if (!head)
 	{
-		dst[i] = s[i];
+		head = ft_newlst(fd);
+		if (!head)
+			return (NULL);
+		return (head);
+	}
+	while (head->next)
+	{
+		if (head->fd == fd)
+			return (head);
+		head = head->next;
+	}
+	if (head->fd == fd)
+		return (head);
+	head->next = ft_newlst(fd);
+	if (!(head->next))
+		return (NULL);
+	return (head->next);
+}
+
+t_store	*ft_newlst(int fd)
+{
+	t_store	*tmp;
+
+	tmp = (t_store *)malloc(sizeof(t_store));
+	if (!tmp)
+		return (NULL);
+	tmp->next = NULL;
+	tmp->fd = fd;
+	tmp->store = NULL;
+	return (tmp);
+}
+
+ssize_t	is_there_nl(char *store)
+{
+	ssize_t	idx;
+
+	idx = 0;
+	if (!store)
+		return (FT_FAIL);
+	while (*store)
+	{
+		if (*store == '\n')
+			return (idx);
+		store += 1;
+		idx += 1;
+	}
+	return (FT_FAIL);
+}
+
+char	*ft_strndup(char *str, ssize_t len)
+{
+	ssize_t	s_len;
+	ssize_t	i;
+	char	*dst;
+
+	s_len = 0;
+	i = 0;
+	if (len < 0)
+		return (NULL);
+	while (str[s_len])
+		s_len += 1;
+	if (s_len < len)
+		dst = (char *)malloc(sizeof(char) * (s_len + 1));
+	else
+		dst = (char *)malloc(sizeof(char) * (len + 1));
+	if (!dst)
+		return (NULL);
+	while (i < s_len && i < len)
+	{
+		dst[i] = str[i];
 		i += 1;
 	}
 	dst[i] = '\0';
 	return (dst);
 }
 
-void	*ft_memcpy(void *dst, void *src, ssize_t size)
+char	*ft_strjoin(char *s1, char *s2)
 {
-	unsigned char		*u_dst;
-	const unsigned char	*u_src;
-	ssize_t				i;
+	char	*dst;
+	ssize_t	s1_len;
+	ssize_t	s2_len;
+	ssize_t	i;
 
 	i = 0;
-	u_dst = (unsigned char *)dst;
-	u_src = (const unsigned char *)src;
-	while (i < size)
+	s1_len = 0;
+	s2_len = 0;
+	while (s1[s1_len])
+		s1_len += 1;
+	while (s2[s2_len])
+		s2_len += 1;
+	dst = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
+	if (!dst)
+		return (NULL);
+	while (i < s1_len)
 	{
-		u_dst[i] = u_src[i];
+		dst[i] = s1[i];
 		i += 1;
 	}
+	while (i - s1_len < s2_len)
+	{
+		dst[i] = s2[i - s1_len];
+		i += 1;
+	}
+	dst[s1_len + s2_len] = '\0';
 	return (dst);
 }

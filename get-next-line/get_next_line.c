@@ -3,97 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntkim <guntkim@student.42.fr>        +#+  +:+       +#+        */
+/*   By: guntkim <guntkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/25 18:41:03 by guntkim         #+#    #+#             */
-/*   Updated: 2022/03/25 18:41:03 by guntkim        ###   ########.fr       */
+/*   Created: 2022/04/01 16:52:00 by guntkim           #+#    #+#             */
+/*   Updated: 2022/04/01 20:45:36 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+
 #include "get_next_line.h"
 
-ssize_t	is_there_nl(char *s)
+void	free_str(char *str)
 {
-	ssize_t	i;
-
-	i = 0;
-	if (!s)
-		return (-1);
-	while (s[i])
-	{
-		if (s[i] == '\n')
-			return (i);
-		i += 1;
-	}
-	return (-1);
+	free(str);
+	str = NULL;
 }
 
-char	*process_store(char *store)
+char	*process_store(t_store *now, char *buf, ssize_t read_size)
 {
-	char	*tmp;
+	char	*str;
 	ssize_t	len;
-	ssize_t	index;
 
-	index = is_there_nl(store);
-	len = ft_strlen(store);
-	tmp = ft_strndup(&store[index + 1], len - index + 1);
-	free_str(store);
-	store = tmp;
-	return (store);
+	while (buf[len])
+		len += 1;
+	if (!(now->store))
+	{
+		str = (char *)malloc(sizeof(char) * (len + 1));
+		if (!str)
+			return (NULL);
+		now->store = str;
+	}
+	else
+	{
+		str = ft_strjoin(now->store, buf);
+		if (!str)
+			return (NULL);
+		free_str(now->store);
+		now->store = str;
+	}
+	return (now->store);
 }
 
-char	*get_ret_line(char *store)
+char	*get_ret(t_store *now)
 {
-	ssize_t	index;
+	ssize_t	idx;
+	ssize_t	len;
+	char	*dst;
+	char	*store;
+
+	while (now->store[len])
+		len += 1;
+	idx = is_there_nl(now->store);
+	if (idx == FT_FAIL)
+		return (now->store);
+	dst = ft_strndup(now->store, idx);
+	store = ft_strndup(&(now->store[idx + 1]), len - idx);
+	if (!dst || !store)
+		return (NULL);
+	free_str(now->store);
+	now->store = store;
+	return (dst);
+}
+
+char	*get_read(int fd, t_store *now, char *buf)
+{	
+	ssize_t	read_size;
 	char	*dst;
 
-	index = is_there_nl(store);
-	dst = ft_strndup(store, index);
+	read_size = 1;
+	while (is_there_nl(now->store) == FT_FAIL && read_size > 0)
+	{
+		read_size = read(fd, buf, BUFFER_SIZE);
+		buf[read_size] = '\0';
+		if (!process_store(now, buf, read_size))
+			return (NULL);
+		if (read_size <= 0)
+			break;
+	}
+	free_str(buf);
+	if (read_size < 0) // read Error
+		return (NULL);
+	dst = get_ret(now);
 	if (!dst)
 		return (NULL);
 	return (dst);
 }
 
-char	*mid_process(char *buffer, char *store, ssize_t read_size)
-{
-	char	*tmp;
-
-	if (store == (char *)NULL)
-	{
-		tmp = ft_strndup(buffer, read_size);
-		free_str(store);
-	}
-	else
-		tmp = ft_strjoin(store, buffer);
-	free_str(store);
-	return (tmp);
-}
-
 char	*get_next_line(int fd)
 {
-	static char	*store;
-	char		*buffer;
-	char		*dst;
-	ssize_t		read_size; 
+	static t_store	*head;
+	t_store			*now;
+	char			*buf;
+	char			*dst;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buffer)
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
 		return (NULL);
-	read_size = read(fd, buffer, BUFFER_SIZE);
-	while (is_there_nl(store) == -1 && read_size > 0)
-	{
-		buffer[read_size] = '\0';
-		store = mid_process(buffer, store, read_size);
-		read_size = read(fd, buffer, BUFFER_SIZE);
-	}
-	free_str(buffer);
-	if (read_size < 0)
+	buf[0] = '\0';
+	now = get_t_store(fd, head);
+	if (!now)
 		return (NULL);
-	dst = get_ret_line(store);
-	store = process_store(store);
-	printf("%s\n", dst);
+	dst = get_read(fd, now, buf);
+	if (!dst)
+		return (NULL);
+	free_str(buf);
 	return (dst);
 }
