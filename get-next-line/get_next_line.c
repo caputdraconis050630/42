@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntkim <guntkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:52:00 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/01 21:41:46 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/04/02 14:11:36 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char	*get_next_line(int fd)
 	if (!now)
 		return (NULL);
 	dst = get_read(fd, now, buf);
+	printf("%s\n", dst);
 	if (!dst)
 		return (NULL);
 	free_str(buf);
