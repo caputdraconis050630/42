@@ -6,7 +6,7 @@
 /*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:52:00 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/02 14:11:36 by guntakkim        ###   ########.fr       */
+/*   Updated: 2022/04/02 14:22:31 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,16 @@ char	*process_store(t_store *now, char *buf, ssize_t read_size)
 {
 	char	*str;
 	ssize_t	len;
+	ssize_t	i;
 
 	while (buf[len])
 		len += 1;
-	if (!(now->store))
+	if (now->store == NULL)
 	{
 		str = (char *)malloc(sizeof(char) * (len + 1));
 		if (!str)
 			return (NULL);
+		while ()
 		now->store = str;
 	}
 	else
@@ -105,7 +107,10 @@ char	*get_next_line(int fd)
 	if (!now)
 		return (NULL);
 	dst = get_read(fd, now, buf);
-	printf("%s\n", dst);
+
+	// Check Function
+	// printf("%s\n", dst);
+	
 	if (!dst)
 		return (NULL);
 	free_str(buf);
