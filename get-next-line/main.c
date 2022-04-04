@@ -11,8 +11,8 @@ int main(void)
 	fd = open("a.txt", O_RDONLY);
 	for(int i = 0; i < 20; i++)
 	{
-		printf("%d 번째 read\n", i + 1);
 		buffer = get_next_line(fd);
-		printf("%s\n", buffer);
+		printf("%d 번째 read\n", i + 1);
+		printf("%s\n\n\n", buffer);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:52:00 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/04 22:43:45 by guntakkim        ###   ########.fr       */
+/*   Updated: 2022/04/05 05:51:31 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*get_ret(t_store *now)
 
 	len = ft_strlen(now->store);
 	idx = is_there_nl(now->store);
+	// printf("기존 store %s\n", now->store);
 	if (idx == FT_FAIL)
 	{
 		dst = ft_strndup(now->store, len);
@@ -61,6 +62,8 @@ char	*get_ret(t_store *now)
 		return (NULL);
 	free(now->store);
 	now->store = store;
+	// printf("dst의 길이 %d dst %s\n", (int)ft_strlen(dst), dst);
+	// printf("자르고 난 후의 store %s\n", now->store);
 	return (dst);
 }
 
@@ -91,7 +94,7 @@ char	*get_read(int fd, t_store *now, char *buf)
 
 char	*get_next_line(int fd)
 {
-	static t_store	*head;
+	static t_store	head;
 	t_store			*now;
 	char			*buf;
 	char			*dst;
@@ -102,10 +105,11 @@ char	*get_next_line(int fd)
 	if (!buf)
 		return (NULL);
 	buf[0] = '\0';
-	now = get_t_store(fd, head);
+	now = get_t_store(fd, &head);
 	if (!now)
 		return (NULL);
 	dst = get_read(fd, now, buf);
+	free(now);
 	if (!dst)
 		return (NULL);
 	return (dst);
