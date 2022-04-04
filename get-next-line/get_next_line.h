@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntkim <guntkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:52:02 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/01 21:27:47 by guntkim          ###   ########.fr       */
+/*   Updated: 2022/04/04 12:51:49 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ typedef struct s_store
 }	t_store;
 
 // Prototype - get_next_line.c
-void		free_str(char *str);
-char		*process_store(t_store *now, char *buf, ssize_t read_size);
+ssize_t		ft_strlen(char *str);
+char		*process_store(t_store *now, char *buf);
 char		*get_ret(t_store *now);
 char		*get_read(int fd, t_store *now, char *buf);
 char		*get_next_line(int fd);

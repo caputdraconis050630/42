@@ -9,7 +9,7 @@ int main(void)
 	int		read_size;
 
 	fd = open("a.txt", O_RDONLY);
-	for(int i = 0; i < 50; i++)
+	for(int i = 0; i < 20; i++)
 	{
 		printf("%d 번째 read\n", i + 1);
 		buffer = get_next_line(fd);

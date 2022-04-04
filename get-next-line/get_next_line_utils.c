@@ -6,7 +6,7 @@
 /*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:51:56 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/04 12:31:39 by guntakkim        ###   ########.fr       */
+/*   Updated: 2022/04/04 22:43:31 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,10 @@ ssize_t	is_there_nl(char *store)
 	idx = 0;
 	if (!store)
 		return (FT_FAIL);
-	while (*store)
+	while (store[idx])
 	{
-		if (*store == '\n')
+		if (store[idx] == '\n')
 			return (idx);
-		store += 1;
 		idx += 1;
 	}
 	return (FT_FAIL);
@@ -71,12 +70,10 @@ char	*ft_strndup(char *str, ssize_t len)
 	ssize_t	i;
 	char	*dst;
 
-	s_len = 0;
+	s_len = ft_strlen(str);
 	i = 0;
-	if (len < 0)
-		return (NULL);
-	while (str[s_len])
-		s_len += 1;
+	if (len == FT_FAIL)
+		len = s_len;
 	if (s_len < len)
 		dst = (char *)malloc(sizeof(char) * (s_len + 1));
 	else
@@ -100,17 +97,13 @@ char	*ft_strjoin(char *s1, char *s2)
 	ssize_t	i;
 
 	i = 0;
-	s1_len = 0;
-	s2_len = 0;
-	while (s1[s1_len])
-		s1_len += 1;
-	while (s2[s2_len])
-		s2_len += 1;
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
 	dst = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (!dst)
 		return (NULL);
 	while (i < s1_len)
-	{
+	{ 
 		dst[i] = s1[i];
 		i += 1;
 	}
