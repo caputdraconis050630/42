@@ -6,7 +6,7 @@
 /*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:51:56 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/02 14:11:37 by guntakkim        ###   ########.fr       */
+/*   Updated: 2022/04/04 12:31:39 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_store	*ft_newlst(int fd)
 		return (NULL);
 	tmp->next = NULL;
 	tmp->fd = fd;
-	tmp->store = NULL;
+	tmp->store = ft_strndup("", 0);
 	return (tmp);
 }
 
