@@ -1,44 +1,122 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: guntkim <guntkim@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/05 10:57:35 by guntakkim         #+#    #+#             */
+/*   Updated: 2022/04/05 10:57:35 by guntakkim        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
+#include <stdio.h>
 
-char	*get_next_line(int fd) /* fd: 3이라고 가정해봅시다 */
+char	*get_read(int fd, t_store *now)
 {
-/* heap에 할당되어 줄줄이 연결되어 있는 연결리스트의 첫 주소를 보관하기 위한 노드
-** 멤버는 모두 0으로 초기화되고 그중 next만 사용하게 된다.
-** t_list *로 선언할 수도 있겠으나, 리스트관련함수를 쓰려면 얘도 노드인 게 편하다. */
-	static t_list	head;
-	t_list			*node; /* fd: 3인 node를 저장 */
-	char			*line;
+	char	*buf;
+	char	*store;
+	char	*tmp;
+	ssize_t	read_size;
 
-	if (fd < 0 || BUFFER_SIZE < 1)
+	store = now->store;
+	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buf)
 		return (NULL);
-
-/* fd: 3인 노드를 찾고, 없으면 새로 만들어서 연결 후 반환한다. 
-** &head로 넘겨주어야 하는 이유: 
-** 새로운 노드를 할당했을 경우 연결작업을 하는데, 이 때 해당 멤버의 값을 수정하려고 */
-	node = get_node(&head, fd);
-	if (node == NULL)
-		return (NULL);
-
-	node->save = read_iter(&(node->save), fd);
-	if (node->save == NULL || *(node->save) == '\0')
+	read_size = 1;
+	while (read_size > 0 && !ft_strchr(now->store, '\n'))
 	{
-/* get_next_line(3)은 더이상 main에서 사용할 일이 없다고 판단하고,
-** 1. fd : 3인 노드의 멤버와 노드 자체를 프리시키는 작업
-** 2. 앞뒤 노드를 연결시켜두는 작업을 진행한다. */
-		del_node(&node);
+		read_size = read(fd, buf, BUFFER_SIZE);
+		if (read_size <= 0)
+			break;
+		buf[read_size] = '\0';
+		tmp = store;
+		store = append_store(store, buf);
+		free(tmp);
+	}
+	free(buf);
+	buf = NULL;
+	return (store);
+}
+
+char	*get_ret(char *store)
+{
+	char	*dst;
+	size_t	nl_index;
+	
+	if (ft_strchr(store, '\n'))
+		nl_index = (ft_strchr(store, '\n') - store) + 1;
+	else
+		nl_index = ft_strchr(store, '\0') - store;
+	dst = (char *)malloc(sizeof(char) * (nl_index + 1));
+	if (dst == NULL)
+		return (NULL);
+	ft_strlcpy(dst, store, nl_index + 1);
+	return (dst);
+}
+
+char	*process_store(t_store *now, ssize_t len)
+{
+	char	*dst;
+
+	dst = (char *)malloc(sizeof(char) * (ft_strlen(now->store) - len + 1));
+	if (dst == NULL)
+		return (NULL);
+	ft_strlcpy(dst, &now->store[len], ft_strlen(now->store) - len + 1);
+	free(now->store);
+	now->store = NULL;
+	return (dst);
+}
+
+char	*append_store(char *store, char *buf)
+{
+	char	*dst;
+	size_t	len;
+
+	if (buf == NULL)
+		return (NULL);
+	else if (store == NULL)
+	{
+		dst = (char *)malloc(sizeof(char) * (ft_strlen(buf) + 1));
+		if (dst == NULL)
+			return (NULL);
+		ft_strlcpy(dst, buf, ft_strlen(buf) + 1);
+		return (dst);
+	}
+	len = ft_strlen(store) + ft_strlen(buf) + 1;
+	dst = (char *)malloc(sizeof(char) * len);
+	if (dst == NULL)
+		return (NULL);
+	ft_strlcpy(dst, store, ft_strlen(store) + 1);
+	ft_strlcpy(dst + ft_strlen(store), buf, ft_strlen(buf) + 1);
+	return (dst);
+}
+
+char	*get_next_line(int fd)
+{
+	static t_store	head;
+	t_store			*now;
+	char			*dst;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	now = get_t_store(fd, &head);
+	if (now == NULL)
+		return (NULL);
+	now->store = get_read(fd, now);
+	if (now->store == NULL)
+	{
+		free_node(&now);
 		return (NULL);
 	}
-	line = get_line(node->save);
-	if (line == NULL)
+	dst = get_ret(now->store);
+	now->store = process_store(now, ft_strlen(dst));
+	if (dst == NULL || now->store == NULL)
 	{
-		del_node(&node);
+		free_node(&now);
 		return (NULL);
 	}
-	node->save = set_remains(&(node->save), ft_strlen(line));
-	if (node->save == NULL)
-	{
-		del_node(&node);
-		return (NULL);
-	}
-	return (line);
+	printf("now->store : %s\n", now->store);
+	return (dst);
 }
