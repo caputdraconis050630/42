@@ -11,40 +11,48 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-char	*get_read(int fd, t_store *now)
+char	*get_read(int fd, char **store)
 {
 	char	*buf;
-	char	*store;
+	char	*dst;
 	char	*tmp;
 	ssize_t	read_size;
 
-	store = now->store;
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
+	if (buf == NULL)
+	{
+		free(*store);
+		*store = NULL;
 		return (NULL);
-	read_size = 1;
-	while (read_size > 0 && !ft_strchr(store, '\n'))
+	}
+	dst = *store;
+	read_size = 0;
+	while (dst == NULL && !ft_strchr(dst, '\n'))
 	{
 		read_size = read(fd, buf, BUFFER_SIZE);
 		if (read_size <= 0)
-			break;
+			break ;
 		buf[read_size] = '\0';
-		tmp = store;
-		store = append_store(store, buf);
+		tmp = dst;
+		dst = append_store(dst, buf);
 		free(tmp);
 	}
 	free(buf);
 	buf = NULL;
-	return (store);
+	if (read_size < 0 || dst == NULL || dst[0] == '\0')
+	{
+		free(dst);
+		dst = NULL;
+	}
+	return (dst);
 }
 
-char	*get_ret(char *store)
+char	*get_ret(char const *store)
 {
 	char	*dst;
 	size_t	nl_index;
-	
+
 	if (ft_strchr(store, '\n'))
 		nl_index = (ft_strchr(store, '\n') - store) + 1;
 	else
@@ -69,7 +77,7 @@ char	*process_store(t_store *now, ssize_t len)
 	return (dst);
 }
 
-char	*append_store(char *store, char *buf)
+char	*append_store(char const *store, char const *buf)
 {
 	char	*dst;
 	size_t	len;
@@ -104,16 +112,17 @@ char	*get_next_line(int fd)
 	now = get_t_store(fd, &head);
 	if (now == NULL)
 		return (NULL);
-	now->store = get_read(fd, now);
-	// printf("now->store : %s\n", now->store);
+	now->store = get_read(fd, &(now->store));
 	if (now->store == NULL)
+		free_node(&now);
+	dst = get_ret(now->store);
+	if (dst == NULL)
 	{
 		free_node(&now);
 		return (NULL);
 	}
-	dst = get_ret(now->store);
 	now->store = process_store(now, ft_strlen(dst));
-	if (dst == NULL || now->store == NULL)
+	if (now->store == NULL)
 	{
 		free_node(&now);
 		return (NULL);

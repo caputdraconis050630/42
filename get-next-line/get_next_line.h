@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
+/*   By: guntkim <guntkim@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:52:02 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/05 13:42:48 by guntakkim        ###   ########.fr       */
+/*   Updated: 2022/04/06 16:10:34 by guntkim          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE (42)
-# endif
-
 typedef struct s_store
 {
 	int				fd;
@@ -30,11 +26,11 @@ typedef struct s_store
 }	t_store;
 
 // get_next_line.c Prototype
-t_store	*get_t_store(int fd, t_store *head);
-char	*get_ret(char *store);
+char	*get_read(int fd, char **store);
+char    *get_ret(char const *store);
 char	*process_store(t_store *now, ssize_t len);
 char	*get_next_line(int fd);
-char	*append_store(char *store, char *buf);
+char    *append_store(char const *store, char const *buf);
 
 // get_next_line_utils.c Prototype
 size_t	ft_strlen(char const *s);
