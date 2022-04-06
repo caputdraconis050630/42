@@ -25,7 +25,7 @@ char	*get_read(int fd, t_store *now)
 	if (!buf)
 		return (NULL);
 	read_size = 1;
-	while (read_size > 0 && !ft_strchr(now->store, '\n'))
+	while (read_size > 0 && !ft_strchr(store, '\n'))
 	{
 		read_size = read(fd, buf, BUFFER_SIZE);
 		if (read_size <= 0)
@@ -105,6 +105,7 @@ char	*get_next_line(int fd)
 	if (now == NULL)
 		return (NULL);
 	now->store = get_read(fd, now);
+	// printf("now->store : %s\n", now->store);
 	if (now->store == NULL)
 	{
 		free_node(&now);
@@ -117,6 +118,5 @@ char	*get_next_line(int fd)
 		free_node(&now);
 		return (NULL);
 	}
-	printf("now->store : %s\n", now->store);
 	return (dst);
 }

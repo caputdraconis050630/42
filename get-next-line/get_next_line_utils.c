@@ -12,8 +12,6 @@
 
 #include "get_next_line.h"
 
-// 인자로 들어온 fd 값을 가진 노드를 리턴하는거에요^^
-// head->next
 t_store	*get_t_store(int fd, t_store *head)
 {
 	t_store	*now;
@@ -35,7 +33,8 @@ t_store	*get_t_store(int fd, t_store *head)
 
 void	free_node(t_store **now)
 {
-	free((*now)->store);
+	if ((*now)->store)
+		free((*now)->store);
 	(*now)->prev->next = (*now)->next;
 	if ((*now)->next != NULL)
 		(*now)->next->prev = (*now)->prev;
