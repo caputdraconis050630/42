@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:52:02 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/07 11:32:32 by guntakkim        ###   ########.fr       */
+/*   Updated: 2022/04/07 11:31:42 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include <fcntl.h>
 # include <stdlib.h>
@@ -41,7 +41,7 @@ char	*get_next_line(int fd);
 char	*append_store(char const *store, char const *buf);
 
 // get_next_line_utils.c Prototype
-ssize_t	ft_strlen(char const *s);
+size_t	ft_strlen(char const *s);
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void	free_node(t_store **now);

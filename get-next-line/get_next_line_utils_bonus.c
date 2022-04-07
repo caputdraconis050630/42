@@ -3,47 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntkim <guntkim@student.42.fr>            +#+  +:+       +#+        */
+/*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/06 14:18:21 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/06 14:18:23 by guntkim          ###   ########.fr       */
+/*   Created: 2022/04/07 11:17:13 by guntakkim         #+#    #+#             */
+/*   Updated: 2022/04/07 11:17:37 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-void	del_node(t_list **node)
+t_store	*get_t_store(int fd, t_store *head)
 {
-	free((*node)->save);
-	(*node)->prev->next = (*node)->next;
-	if ((*node)->next)
+	t_store	*now;
+
+	now = head;
+	while (now->next)
 	{
-		(*node)->next->prev = (*node)->prev;
+		now = now->next;
+		if (now->fd == fd)
+			return (now);
 	}
-	free(*node);
-	*node = NULL;
+	now->next = (t_store *)malloc(sizeof(t_store));
+	if (now->next == NULL)
+		return (NULL);
+	now->next->fd = fd;
+	now->next->prev = now;
+	now->next->next = NULL;
+	now->next->store = NULL;
+	return (now->next);
 }
 
-char	*append_buf(char const *save, char const *buf)
+void	free_node(t_store **now)
 {
-	char	*new;
-
-	if (buf == NULL)
-		return (NULL);
-	else if (save == NULL && buf)
-	{
-		new = malloc(ft_strlen(buf) + 1);
-		if (new == NULL)
-			return (NULL);
-		ft_strlcpy(new, buf, ft_strlen(buf) + 1);
-		return (new);
-	}
-	new = malloc(ft_strlen(save) + ft_strlen(buf) + 1);
-	if (new == NULL)
-		return (NULL);
-	ft_strlcpy(new, save, ft_strlen(save) + 1);
-	ft_strlcpy(new + ft_strlen(save), buf, ft_strlen(buf) + 1);
-	return (new);
+	free((*now)->store);
+	if ((*now)->next != NULL)
+		(*now)->next->prev = (*now)->prev;
+	(*now)->prev->next = (*now)->next;
+	free(*now);
+	*now = NULL;
 }
 
 size_t	ft_strlen(char const *s)
@@ -53,8 +50,8 @@ size_t	ft_strlen(char const *s)
 	len = 0;
 	while (*s)
 	{
-		len++;
-		s++;
+		len += 1;
+		s += 1;
 	}
 	return (len);
 }
@@ -85,8 +82,6 @@ size_t	ft_strlcpy(char *dst, char const *src, size_t dstsize)
 		i++;
 	}
 	if (dstsize)
-	{
 		dst[i] = '\0';
-	}
 	return (ft_strlen(src));
 }

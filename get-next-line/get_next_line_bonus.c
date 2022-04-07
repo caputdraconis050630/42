@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntkim <guntkim@student.42.fr>        +#+  +:+       +#+        */
+/*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/05 10:57:35 by guntakkim         #+#    #+#             */
-/*   Updated: 2022/04/05 10:57:35 by guntakkim        ###   ########.fr       */
+/*   Created: 2022/04/06 23:54:20 by guntkim           #+#    #+#             */
+/*   Updated: 2022/04/07 11:30:20 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_read(int fd, char **store)
 {
@@ -21,7 +21,11 @@ char	*get_read(int fd, char **store)
 
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buf == NULL)
+	{
+		free(*store);
+		*store = NULL;
 		return (NULL);
+	}
 	read_size = 0;
 	dst = *store;
 	while (dst == NULL || !ft_strchr(dst, '\n'))
@@ -40,6 +44,7 @@ char	*get_read(int fd, char **store)
 	{
 		free(dst);
 		dst = NULL;
+		return (NULL);
 	}
 	return (dst);
 }
@@ -64,8 +69,6 @@ char	*process_store(char **store, ssize_t len)
 {
 	char	*dst;
 
-	if (len == FT_FAIL)
-		return (NULL);
 	dst = (char *)malloc(sizeof(char) * (ft_strlen(*store) - len + 1));
 	if (dst == NULL)
 		return (NULL);
@@ -117,8 +120,13 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	dst = get_ret(now->store);
+	if (dst == NULL)
+	{
+		free_node(&now);
+		return (NULL);
+	}
 	now->store = process_store(&(now->store), ft_strlen(dst));
-	if (dst == NULL || now->store == NULL)
+	if (now->store == NULL)
 	{
 		free_node(&now);
 		return (NULL);

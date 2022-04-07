@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: guntkim <guntkim@student.42.fr>        +#+  +:+       +#+        */
+/*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:51:56 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/05 05:46:54 by guntakkim        ###   ########.fr       */
+/*   Updated: 2022/04/07 11:32:36 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,20 @@ t_store	*get_t_store(int fd, t_store *head)
 void	free_node(t_store **now)
 {
 	free((*now)->store);
-	(*now)->prev->next = (*now)->next;
 	if ((*now)->next != NULL)
 		(*now)->next->prev = (*now)->prev;
+	(*now)->prev->next = (*now)->next;
 	free(*now);
 	*now = NULL;
 }
 
-size_t	ft_strlen(char const *s)
+ssize_t	ft_strlen(char const *s)
 {
-	size_t	len;
+	ssize_t	len;
 
 	len = 0;
+	if (s == NULL)
+		return (FT_FAIL);
 	while (*s)
 	{
 		len += 1;
