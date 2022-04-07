@@ -6,7 +6,7 @@
 /*   By: guntakkim <guntakkim@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 16:52:02 by guntkim           #+#    #+#             */
-/*   Updated: 2022/04/07 11:32:32 by guntakkim        ###   ########.fr       */
+/*   Updated: 2022/04/07 12:08:32 by guntakkim        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*get_read(int fd, char **store);
 char	*get_ret(char const *store);
 char	*process_store(char **store, ssize_t len);
 char	*get_next_line(int fd);
-char	*append_store(char const *store, char const *buf);
+char	*append_store(char const *store, char *buf, ssize_t read_size);
 
 // get_next_line_utils.c Prototype
 ssize_t	ft_strlen(char const *s);

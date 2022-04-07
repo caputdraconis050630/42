@@ -20,18 +20,14 @@ char	*get_read(int fd, char **store)
 	ssize_t	read_size;
 
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (buf == NULL)
-		return (NULL);
-	read_size = 0;
 	dst = *store;
-	while (dst == NULL || !ft_strchr(dst, '\n'))
+	while ((dst == NULL || !ft_strchr(dst, '\n')) && buf != NULL)
 	{
 		read_size = read(fd, buf, BUFFER_SIZE);
 		if (read_size <= 0)
 			break ;
-		buf[read_size] = '\0';
 		tmp = dst;
-		dst = append_store(dst, buf);
+		dst = append_store(dst, buf, read_size);
 		free(tmp);
 	}
 	free(buf);
@@ -75,13 +71,14 @@ char	*process_store(char **store, ssize_t len)
 	return (dst);
 }
 
-char	*append_store(char const *store, char const *buf)
+char	*append_store(char const *store, char *buf, ssize_t read_size)
 {
 	char	*dst;
 	size_t	len;
 
 	if (buf == NULL)
 		return (NULL);
+	buf[read_size] = '\0';
 	if (store == NULL)
 	{
 		dst = (char *)malloc(sizeof(char) * (ft_strlen(buf) + 1));
